@@ -125,6 +125,38 @@ switch $proj {
                     CONFIG.CLKOUT4_PHASE_ERROR {154.678} \
                     ] [get_ips $proj]
             }
+            vcu108 {
+                # 300 MHz input; VCO = 300 * 4 = 1200 MHz (UltraScale MMCM range 600-1200 MHz).
+                # Dividers give the same output frequencies as VCU118 (same VCO).
+                # TODO: regenerate CLKOUT*_JITTER / CLKOUT*_PHASE_ERROR from Vivado Clock Wizard GUI.
+                set_property -dict [list \
+                    CONFIG.CLK_IN1_BOARD_INTERFACE {Custom} \
+                    CONFIG.RESET_BOARD_INTERFACE {Custom} \
+                    CONFIG.USE_RESET {true} \
+                    CONFIG.PRIM_SOURCE {No_buffer} \
+                    CONFIG.PRIM_IN_FREQ {300.000} \
+                    CONFIG.CLKOUT1_USED {true} \
+                    CONFIG.CLKOUT2_USED {true} \
+                    CONFIG.CLKOUT3_USED {true} \
+                    CONFIG.CLKOUT4_USED {true} \
+                    CONFIG.CLK_OUT1_PORT {clk_50} \
+                    CONFIG.CLK_OUT2_PORT {clk_48} \
+                    CONFIG.CLK_OUT3_PORT {clk_20} \
+                    CONFIG.CLK_OUT4_PORT {clk_10} \
+                    CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {50.000} \
+                    CONFIG.CLKOUT2_REQUESTED_OUT_FREQ {48.000} \
+                    CONFIG.CLKOUT3_REQUESTED_OUT_FREQ {20.000} \
+                    CONFIG.CLKOUT4_REQUESTED_OUT_FREQ {10.000} \
+                    CONFIG.MMCM_CLKFBOUT_MULT_F {4.000} \
+                    CONFIG.MMCM_CLKIN1_PERIOD {3.333} \
+                    CONFIG.MMCM_CLKOUT0_DIVIDE_F {24.000} \
+                    CONFIG.MMCM_CLKOUT1_DIVIDE {25} \
+                    CONFIG.MMCM_CLKOUT2_DIVIDE {60} \
+                    CONFIG.MMCM_CLKOUT3_DIVIDE {120} \
+                    CONFIG.MMCM_CLKOUT4_DIVIDE {1} \
+                    CONFIG.NUM_OUT_CLKS {4} \
+                    ] [get_ips $proj]
+            }
             default { nocfgexit $proj $board }
         }
     }
@@ -143,6 +175,7 @@ switch $proj {
                     CONFIG.C_NUM_PROBE_IN {0} \
                     ] [get_ips $proj]
             }
+            vcu108 -
             vcu118 -
             vcu128 {
                 set_property -dict [list \
@@ -217,6 +250,29 @@ switch $proj {
                     CONFIG.C0.DDR4_CasLatency {18} \
                     CONFIG.C0.DDR4_AxiDataWidth {512} \
                     CONFIG.C0.DDR4_AxiAddressWidth {31} \
+                    CONFIG.C0.DDR4_AxiIDWidth {8} \
+                    CONFIG.C0.BANK_GROUP_WIDTH {1} \
+                    CONFIG.C0.DDR4_AxiSelection {true} \
+                    ] [get_ips $proj]
+            }
+            vcu108 {
+                # DDR4 C1: 5x EDY4016AABG-DR-F-D (80-bit hw); MIG configured for 64-bit
+                # (4 of 5 chips; 5th chip DQ left NC). 1333 MT/s, tCK=1500 ps.
+                # TODO: verify C0_DDR4_BOARD_INTERFACE from `get_board_components` in Vivado.
+                # TODO: verify C0.DDR4_CLKOUT0_DIVIDE from DDR4 IP GUI with 300 MHz input.
+                # TODO: auto-select or verify CasLatency/CasWriteLatency for EDY4016AABG-DR-F-D.
+                set_property -dict [list \
+                    CONFIG.System_Clock {No_Buffer} \
+                    CONFIG.Reference_Clock {No_Buffer} \
+                    CONFIG.C0_DDR4_BOARD_INTERFACE {ddr4_sdram_c0} \
+                    CONFIG.C0.DDR4_InputClockPeriod {3333} \
+                    CONFIG.C0.DDR4_MemoryPart {EDY4016AABG-DR-F-D} \
+                    CONFIG.C0.DDR4_TimePeriod {1500} \
+                    CONFIG.C0.DDR4_DataWidth {64} \
+                    CONFIG.C0.DDR4_DataMask {DM_NO_DBI} \
+                    CONFIG.C0.DDR4_MCS_ECC {false} \
+                    CONFIG.C0.DDR4_AxiDataWidth {512} \
+                    CONFIG.C0.DDR4_AxiAddressWidth {32} \
                     CONFIG.C0.DDR4_AxiIDWidth {8} \
                     CONFIG.C0.BANK_GROUP_WIDTH {1} \
                     CONFIG.C0.DDR4_AxiSelection {true} \

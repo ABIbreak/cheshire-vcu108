@@ -6,6 +6,15 @@
 // Yvan Tortorella <yvan.tortorella@gmail.com>
 // Mojtaba Rostami <m.rostami1989@gmail.com>
 
+`ifdef TARGET_VCU108
+  `define USE_RESET
+  `define USE_JTAG
+  `define USE_DDR4
+  `define USE_SD          // micro-SD J83 for Linux image
+  `define USE_SWITCHES    // 4 DIP switches SW12 for boot mode
+  `define USE_VIO         // VIO for runtime boot mode override
+`endif
+
 `ifdef TARGET_VCU118
   `define USE_RESET
   `define USE_JTAG

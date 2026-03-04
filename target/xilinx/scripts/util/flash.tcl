@@ -23,6 +23,7 @@ set hw_cfgmem [get_property PROGRAM.HW_CFGMEM $hw_device]
 # Create image for and configure memory depending on board
 switch $board {
     genesys2 -
+    vcu108   -
     vcu118   -
     vcu128   {
         set mcs ${project_root}/image.mcs
