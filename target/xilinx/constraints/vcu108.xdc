@@ -22,6 +22,19 @@ set SOC_TCK 20.0
 set soc_clk [get_clocks -of_objects [get_pins i_clkwiz/clk_50]]
 set_property CLOCK_DEDICATED_ROUTE BACKBONE [get_nets soc_clk]
 
+############
+# Switches #
+############
+
+# Testmode is set to 0 during normal use
+set_case_analysis 0 [get_ports test_mode_i]
+
+set_input_delay -min -clock $soc_clk [expr { $SOC_TCK * 0.10 }] [get_ports {boot_mode* test_mode_i}]
+set_input_delay -max -clock $soc_clk [expr { $SOC_TCK * 0.35 }] [get_ports {boot_mode* test_mode_i}]
+
+set_max_delay [expr { 2 * $SOC_TCK }] -from [get_ports {boot_mode* test_mode_i}]
+set_false_path -hold                  -from [get_ports {boot_mode* test_mode_i}]
+
 #######
 # MIG #
 #######
@@ -84,5 +97,11 @@ set_property IOSTANDARD LVDS [get_ports sys_clk_n]
 set_property IOSTANDARD LVDS [get_ports sys_clk_p]
 set_property PACKAGE_PIN G31 [get_ports sys_clk_p]
 set_property PACKAGE_PIN F31 [get_ports sys_clk_n]
+
+## Switches (SW12 4-pole DIP, active-high; UG1066 Table 1-32)
+set_property -dict { PACKAGE_PIN BC40  IOSTANDARD LVCMOS12 } [get_ports { test_mode_i    }]; # Bank 46 GPIO_DIP_SW0 SW12.4
+set_property -dict { PACKAGE_PIN L19   IOSTANDARD LVCMOS12 } [get_ports { boot_mode_i[0] }]; # Bank 71 GPIO_DIP_SW1 SW12.3
+set_property -dict { PACKAGE_PIN C37   IOSTANDARD LVCMOS12 } [get_ports { boot_mode_i[1] }]; # Bank 49 GPIO_DIP_SW2 SW12.2
+# SW12.1 (C38, GPIO_DIP_SW3, Bank 49) unused
 
 # tclint-enable line-length, spacing

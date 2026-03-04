@@ -10,8 +10,9 @@
   `define USE_RESET
   `define USE_JTAG
   `define USE_DDR4
-  `define USE_SD          // micro-SD J83 for Linux image
-  `define USE_SWITCHES    // 4 DIP switches SW12 for boot mode
+  // NOTE: micro-SD J83 is wired to the Zynq system controller (U111) only,
+  // not to the FPGA — USE_SD and USE_STARTUPE3 are not applicable.
+  `define USE_SWITCHES    // 4 DIP switches SW12 (BC40/L19/C37/C38) for boot mode
   `define USE_VIO         // VIO for runtime boot mode override
 `endif
 
