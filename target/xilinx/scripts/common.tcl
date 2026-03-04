@@ -23,6 +23,11 @@ set fpart(vcu118) "xcvu9p-flga2104-2L-e"
 set hwdev(vcu118) "xcvu9p_0"
 set cfgmp(vcu118) "mt25qu01g-spi-x1_x2_x4"
 
+# vcu108 board params
+set bpart(vcu108) "xilinx.com:vcu108:part0:1.6"
+set fpart(vcu108) "xcvu095-ffva2104-2-e"
+set hwdev(vcu108) "xcvu095_0"
+set cfgmp(vcu108) "mt28gu01gaax1e-bpi-x16"
 
 # Initialize an implementation project
 proc init_impl {xilinx_root argc argv} {
