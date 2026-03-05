@@ -39,6 +39,7 @@ proc init_impl {xilinx_root argc argv} {
     global project_root
     global board
     global proj
+    global fresh_project
     # Check argument count
     if { $argc < 2 } {
         puts "Error: Insufficient implementation arguments (${argc}): ${argv}."
@@ -52,12 +53,18 @@ proc init_impl {xilinx_root argc argv} {
     set proj [lindex $argv 1]
     # Set up multithreading
     set_param general.maxThreads $num_threads
-    # Remove prior build
+    # Reuse existing project for incremental synthesis/implementation; create fresh otherwise.
     set project_root ${xilinx_root}/build/${board}.${proj}
-    file delete -force [glob -nocomplain ${project_root}/*]
-    # Create project
-    create_project $proj $project_root -force -part $fpart($board)
-    set_property board_part $bpart($board) [current_project]
+    if {[file exists ${project_root}/${proj}.xpr]} {
+        puts "Info: Reusing existing project for incremental build."
+        open_project ${project_root}/${proj}.xpr
+        set fresh_project 0
+    } else {
+        file mkdir $project_root
+        create_project $proj $project_root -part $fpart($board)
+        set_property board_part $bpart($board) [current_project]
+        set fresh_project 1
+    }
 }
 
 # Open a target device in the hardware manager

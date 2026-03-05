@@ -31,8 +31,13 @@ update_compile_order -fileset sources_1
 set_property XPM_LIBRARIES XPM_MEMORY [current_project]
 set_property strategy Flow_PerfOptimized_high [get_runs synth_1]
 
-# Elaborate and open design to explore all clocks
-synth_design -rtl -name rtl_1
+# Elaborate and open design to explore all clocks;
+# use incremental mode when reusing an existing project
+if {$fresh_project} {
+    synth_design -rtl -name rtl_1
+} else {
+    synth_design -rtl -incremental_mode default -name rtl_1
+}
 report_clocks -file ${project_root}/clocks.rpt
 
 # Synthesis
@@ -49,6 +54,7 @@ insert_ilas {soc_clk}
 
 # Set implementation properties
 set_property strategy Performance_ExtraTimingOpt [get_runs impl_1]
+set_property AUTO_INCREMENTAL_CHECKPOINT 1 [get_runs impl_1]
 
 # Implementation
 launch_runs -jobs $num_jobs impl_1 -to_step write_bitstream
