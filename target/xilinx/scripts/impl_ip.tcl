@@ -126,9 +126,6 @@ switch $proj {
                     ] [get_ips $proj]
             }
             vcu108 {
-                # 300 MHz input; VCO = 300 * 4 = 1200 MHz (UltraScale MMCM range 600-1200 MHz).
-                # Dividers give the same output frequencies as VCU118 (same VCO).
-                # TODO: regenerate CLKOUT*_JITTER / CLKOUT*_PHASE_ERROR from Vivado Clock Wizard GUI.
                 set_property -dict [list \
                     CONFIG.CLK_IN1_BOARD_INTERFACE {Custom} \
                     CONFIG.RESET_BOARD_INTERFACE {Custom} \
@@ -155,6 +152,14 @@ switch $proj {
                     CONFIG.MMCM_CLKOUT3_DIVIDE {120} \
                     CONFIG.MMCM_CLKOUT4_DIVIDE {1} \
                     CONFIG.NUM_OUT_CLKS {4} \
+                    CONFIG.CLKOUT1_JITTER {116.415} \
+                    CONFIG.CLKOUT1_PHASE_ERROR {77.836} \
+                    CONFIG.CLKOUT2_JITTER {117.369} \
+                    CONFIG.CLKOUT2_PHASE_ERROR {77.836} \
+                    CONFIG.CLKOUT3_JITTER {140.023} \
+                    CONFIG.CLKOUT3_PHASE_ERROR {77.836} \
+                    CONFIG.CLKOUT4_JITTER {160.570} \
+                    CONFIG.CLKOUT4_PHASE_ERROR {77.836} \
                     ] [get_ips $proj]
             }
             default { nocfgexit $proj $board }
