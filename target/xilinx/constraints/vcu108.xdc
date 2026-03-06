@@ -39,6 +39,13 @@ set_false_path -hold                  -from [get_ports {boot_mode* test_mode_i}]
 # MIG #
 #######
 
+# Replicate high-fanout CE drivers in the DDR4 AXI CDC R-channel write FIFO.
+# cdc_fifo_gray_src uses an anonymous enable expression per gen_word entry; the
+# synthesized CE LUT for each word drives all ~520 data register CE pins (fo=520),
+# causing -0.85 ns setup violations at 300 MHz. set_max_fanout forces replication
+# of these LUTs during synthesis before the CDC module netlist is locked.
+set_max_fanout 16 [get_cells -hier -filter {NAME =~ *i_cdc_fifo_gray_src_r/gen_word*}]
+
 # DDR4 C1: EDY4016AABG-DR-F-D at 1333 MT/s (tCK=1500 ps).
 # AXI ui_clk = 4 * tCK = 6 ns (approx. 166 MHz). Confirm after DDR4 IP generation.
 set MIG_TCK 6
