@@ -113,7 +113,6 @@ switch $proj {
                     CONFIG.MMCM_CLKOUT1_DIVIDE {25} \
                     CONFIG.MMCM_CLKOUT2_DIVIDE {60} \
                     CONFIG.MMCM_CLKOUT3_DIVIDE {120} \
-                    CONFIG.MMCM_CLKOUT4_DIVIDE {1} \
                     CONFIG.NUM_OUT_CLKS {4} \
                     CONFIG.CLKOUT1_JITTER {153.164} \
                     CONFIG.CLKOUT1_PHASE_ERROR {154.678} \
@@ -271,6 +270,7 @@ switch $proj {
                     CONFIG.Reference_Clock {No_Buffer} \
                     CONFIG.C0_DDR4_BOARD_INTERFACE {ddr4_sdram_c1} \
                     CONFIG.C0.DDR4_InputClockPeriod {3333} \
+                    CONFIG.C0.DDR4_CLKOUT0_DIVIDE {5} \
                     CONFIG.C0.DDR4_MemoryPart {EDY4016AABG-DR-F-D} \
                     CONFIG.C0.DDR4_TimePeriod {1500} \
                     CONFIG.C0.DDR4_DataWidth {64} \
