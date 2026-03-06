@@ -269,7 +269,7 @@ switch $proj {
                 set_property -dict [list \
                     CONFIG.System_Clock {No_Buffer} \
                     CONFIG.Reference_Clock {No_Buffer} \
-                    CONFIG.C0_DDR4_BOARD_INTERFACE {ddr4_sdram_c0} \
+                    CONFIG.C0_DDR4_BOARD_INTERFACE {ddr4_sdram_c1} \
                     CONFIG.C0.DDR4_InputClockPeriod {3333} \
                     CONFIG.C0.DDR4_MemoryPart {EDY4016AABG-DR-F-D} \
                     CONFIG.C0.DDR4_TimePeriod {1500} \
@@ -277,7 +277,7 @@ switch $proj {
                     CONFIG.C0.DDR4_DataMask {DM_NO_DBI} \
                     CONFIG.C0.DDR4_MCS_ECC {false} \
                     CONFIG.C0.DDR4_AxiDataWidth {512} \
-                    CONFIG.C0.DDR4_AxiAddressWidth {32} \
+                    CONFIG.C0.DDR4_AxiAddressWidth {31} \
                     CONFIG.C0.DDR4_AxiIDWidth {8} \
                     CONFIG.C0.BANK_GROUP_WIDTH {1} \
                     CONFIG.C0.DDR4_AxiSelection {true} \
