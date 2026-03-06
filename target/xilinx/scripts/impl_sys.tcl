@@ -37,6 +37,7 @@ if {$fresh_project} {
     synth_design -rtl -name rtl_1
 } else {
     synth_design -rtl -incremental_mode default -name rtl_1
+    reset_run synth_1
 }
 report_clocks -file ${project_root}/clocks.rpt
 
